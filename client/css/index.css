@@ -1,0 +1,179 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 16px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	min-width: 320px;
+	overflow-x: hidden;
+	font-family: 'Roboto', sans-serif; 
+	font-size: 100%;
+}
+
+button, button:focus {
+	box-shadow: none !important;
+	font-size: 14px !important;
+}
+
+h1 {
+	margin: 20px 0;
+}
+
+.btn_visibleFilms {
+	min-width: 142px;
+}
+
+.search__input {
+	max-width: 230px;
+}
+
+.search__result {
+
+}
+
+.search__item {
+	cursor: pointer;
+	display: inline-block;
+	padding: 10px;
+	background: rgba(128, 128, 128, .1);
+	transition: all .3s ease;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.search__item:hover {
+	background: rgba(0, 0, 0, .1);
+}
+
+.search__id {
+	display: inline;
+	font-size: 14px;
+}
+
+.search__name {
+	font-size: 14px;
+}
+
+.search__actors {
+	font-size: 14px;
+}
+
+.search__id span, .search__name span, .search__actors span {
+	font-weight: 500;
+}
+
+.search__title {
+	margin-top: 13px;
+}
+
+.search__title_passed {
+	font-weight: normal;
+	font-style: italic;
+	margin-left: 10px;
+}
+
+/* block: menu */
+
+.menu {
+
+}
+
+.menu__list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+/* block: all-films__list */
+
+.all-films__list {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	padding-top: 15px;
+}
+
+.all-films__item {
+	margin-left: 40px;
+	margin-bottom: 10px;
+}
+
+.all-films__item button {
+	min-width: 250px;
+}
+
+.all-films__main-title {
+	margin-bottom: 15px;
+}
+
+/* block: form */
+
+.form {
+
+}
+
+.add-film {
+	padding: 0 40px;
+}
+
+.add-film .form-group {
+	display: flex;
+	justify-content: center;
+}
+
+.add-film label {
+	padding: 0;
+}
+
+.add-film input {
+	margin-bottom: 20px;
+}
+
+
+.col-form-label {
+
+}
+
+.item-film__title {
+	font-weight: bold;
+}
+
+.item-film__value {
+	font-size: 14px;
+}
+
+.film__item_delete {
+	list-style-type: none;
+	margin-top: 15px; 
+}
+
+.film__main-title {
+	margin-bottom: 12px;
+}
+
+
+/* block: check */
+
+.check {
+	display: flex;
+	align-items: center;
+}
+
+.check__item {
+	margin-right: 12px;
+}
+
+.check__title {
+	font-size: 13px;
+}
+
+.check__input {
+	vertical-align: -4px;
+	width: 16px;
+	height: 16px;
+}

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>Films Vue.js</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+	
+<div class="app" id="app">
+	
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h1 class="h1 header__title">Фильмы</h1>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFilm">
+                        Добавить новый фильм
+                    </button>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<section class="main">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-4">
+					<h5 class="all-films__main-title">Поиск фильмов</h5>
+					<button
+                        type="button"
+                        class="btn btn-success btn_visibleFilms"
+                        @click="allFilmsVisible = !allFilmsVisible"
+                    >
+                        {{ visibleAllFilms }}
+                    </button>
+                    <button
+						type="button"
+						class="btn btn-warning"
+                    >
+                    	Сортировать по алфавиту
+                    </button>
+					<nav class="menu header__menu">
+						<ul class="menu__list">
+							<nav
+								class="all-films"
+								v-if="allFilmsVisible"
+								>
+								<ul class="all-films__list">
+									<li
+										class="all-films__item"
+										v-for="film in films"
+										@click="selectFilm(film.id)"
+										>
+                                        <button
+                                            type="button"
+                                            class="btn btn-info"
+                                            >
+											 {{ film.name }}
+                                        </button>
+									</li>
+								</ul>
+							</nav>
+						</ul>
+					</nav>
+				</div>
+
+				<div class="col-4">
+					<nav class="film">
+						<ul class="film__list">
+							<h5 class="film__main-title">Информация о фильме</h5>
+							<li class="item-film film__item film__item_id">
+								<div class="item-film__title item-film__title_id">
+									Уникальный идентификатор
+								</div>
+								<div class="item-film__value item-film__value_id">
+									{{ film.id }}
+								</div>
+							</li>
+							<li class="item-film film__item film__item_name">
+								<div class="item-film__title item-film__title_name">
+									Название фильма
+								</div>
+								<div class="item-film__value item-film__value_name">
+									{{ film.name }}
+								</div>
+							</li>
+							<li class="item-film film__item film__item_year">
+								<div class="item-film__title item-film__title_year">
+									Год выпуска
+								</div>
+								<div class="item-film__value item-film__value_year">
+									{{ film.year }}
+								</div>
+							</li>
+							<li class="item-film film__item film__item_format">
+								<div class="item-film__title item-film__title_format">
+									Формат
+								</div>
+								<div class="item-film__value item-film__value_format">
+									{{ film.format }}
+								</div>
+							</li>
+							<li class="item-film film__item film__item_actors">
+								<div class="item-film__title item-film__title_actors">
+									Список актеров
+								</div>
+								<div class="item-film__value item-film__value_actors">
+									{{ film.actors }}
+								</div>
+							</li>
+                            <li class="item-film film__item film__item_delete">
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    @click="deleteFilm(film.id)"
+                                >
+                                    Удалить фильм
+                                </button>
+                            </li>
+						</ul>
+					</nav>
+				</div>
+
+				<div class="col-4">
+					<h5>Поиск фильмов</h5>
+					<div class="check">
+						<div class="check__item">
+							<label class="check__title" for="search">искать в названии</label>
+							<input
+								class="check__input"
+								name="search"
+								type="checkbox"
+								value="name"
+								v-model="checkedSearch"
+							>
+						</div>
+						<div class="check__item">
+							<label class="check__title" for="search">искать по актерам</label>
+							<input
+								class="check__input"
+								name="search"
+								type="checkbox"
+								value="actors"
+								v-model="checkedSearch"
+							>
+						</div>
+					</div>
+					<input
+                    	type="text"
+						class="form-control search__input"
+						v-model="searchFilm"
+						placeholder="Введите фильм или актера"
+                    >
+                    <div class="search__result" v-if="searchFilm.length > 0">
+                    	<h6
+                    		class="search__title"
+                    		v-bind:class="{ 'search__title_passed' : !searchTitle }"
+                    	>
+                    		{{ visibleResultTitle }}
+                    	</h6>
+                    	<li
+                    		class="search__item"
+                    		v-for="film in filteredFilms"
+                    		@click="selectFilm(film.id)"
+                    	>
+                    		<div class="search__id"><span>id:</span> {{film.id}}</div>
+                    		<div class="search__name"><span>Название фильма:</span> {{ film.name }}</div>
+                    		<div class="search__actors"><span>Актерский состав:</span> {{ film.actors }}</div>
+                    	</li>
+                    </div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<hr>
+					<div class="footer__text">(с) 2018</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div class="modal fade add-film" id="addFilm" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить фильм</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form autocomplete="off" class="form add-film form-group row" id="add-film">
+                        <label for="example-text-input" class="col-4 col-form-label">Название фильма</label>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="text"
+                                v-model.lazy="newFilm[1]"
+                                required
+                            >
+                        </div>
+                        <label for="example-text-input" class="col-4 col-form-label">Год выпуска</label>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="text"
+                                v-model.lazy.number="newFilm[2]"
+                                required
+                                >
+                        </div>
+                        <label for="example-text-input" class="col-4 col-form-label">Формат</label>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="text"
+                                v-model.lazy="newFilm[3]"
+                                required
+                                >
+                        </div>
+                        <label for="example-text-input" class="col-4 col-form-label">Список актеров</label>
+                        <div class="col-8">
+                            <input
+                                class="form-control"
+                                type="text"
+                                v-model.lazy="newFilm[4]"
+                                required
+                                >
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                            <button
+                            	type="button"
+                            	class="btn btn-primary"
+                            	@click="addFilm"
+                            >
+                                Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="js/index.js"></script>	
+</body>
+</html>
