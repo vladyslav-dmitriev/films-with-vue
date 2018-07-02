@@ -41,8 +41,9 @@
                     <button
 						type="button"
 						class="btn btn-warning"
+						@click="sortFilms = !sortFilms"
                     >
-                    	Сортировать по алфавиту
+                    	{{ sortFilmsTitle }}
                     </button>
 					<nav class="menu header__menu">
 						<ul class="menu__list">
@@ -53,7 +54,7 @@
 								<ul class="all-films__list">
 									<li
 										class="all-films__item"
-										v-for="film in films"
+										v-for="film in sortedArray"
 										@click="selectFilm(film.id)"
 										>
                                         <button

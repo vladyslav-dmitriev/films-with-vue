@@ -34,7 +34,8 @@ var vm = new Vue({
 		newFilm: [0],
 		searchFilm: '',
 		searchTitle: false,
-		checkedSearch: ['name', 'actors']
+		checkedSearch: ['name', 'actors'],
+		sortFilms: false
 	},
 	methods: {
 		selectFilm(id) {
@@ -125,6 +126,20 @@ var vm = new Vue({
 				this.searchTitle = false;
 				return 'Нет результатов'
 			}
+		},
+		sortedArray(){
+			var listNew = [];
+			for (var key in this.films) {
+			  listNew[key] = this.films[key];
+			}
+			if (this.sortFilms) {
+	    		return listNew.sort((a, b) => a.name > b.name );
+	    	} else {
+	    		return this.films;
+	    	}
+		},
+		sortFilmsTitle() {
+			return this.sortFilms ? 'Сортировать по дате' : 'Сортировать по алфавиту'
 		}
 	},
 	filters: {
